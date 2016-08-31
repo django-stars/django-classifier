@@ -1,0 +1,32 @@
+language: python
+
+sudo: false
+
+cache: pip
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+env:
+  - DJANGO='django>=1.8,<1.9'
+  - DJANGO='django>=1.9,<1.10'
+  - DJANGO='django>=1.10,<1.11'
+  - DJANGO='https://github.com/django/django/archive/master.tar.gz'
+
+install:
+  - travis_retry pip install $DJANGO
+  - travis_retry pip install -r requirements/test.txt
+
+
+script:
+  - coverage run --source classifier runtests.py -v 2
+  - coverage report
+
+matrix:
+  allow_failures:
+    - env: DJANGO='https://github.com/django/django/archive/master.tar.gz'
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

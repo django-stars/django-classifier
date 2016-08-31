@@ -1,0 +1,4 @@
+-r maintainer.txt
+
+factory-boy==2.7.0
+coverage==4.2
