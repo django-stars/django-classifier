@@ -1,3 +1,4 @@
+import six
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.dateparse import parse_date, parse_datetime
@@ -80,16 +81,20 @@ class ClassifierAbstract(models.Model):
         cleaner = getattr(self, 'to_python_{}'.format(self.value_type))
         return cleaner(value)
 
-    def to_python_int(self, value):
+    @staticmethod
+    def to_python_int(value):
         return int(value)
 
-    def to_python_float(self, value):
+    @staticmethod
+    def to_python_float(value):
         return float(value)
 
-    def to_python_str(self, value):
-        return str(value)  # PYTHON 3
+    @staticmethod
+    def to_python_str(value):
+        return six.text_type(value)
 
-    def to_python_bool(self, value):
+    @staticmethod
+    def to_python_bool(value):
         if value.lower() in ['on', 'yes', 'true']:
             return True
         elif value:
@@ -97,14 +102,16 @@ class ClassifierAbstract(models.Model):
 
         return False
 
-    def to_python_date(self, value):
+    @staticmethod
+    def to_python_date(value):
         date = parse_date(value)
         if value and not date:
             raise ValueError('Can\'t convert "{}" to date'.format(value))
 
         return date
 
-    def to_python_datetime(self, value):
+    @staticmethod
+    def to_python_datetime(value):
         datetime = parse_datetime(value)
         if value and not datetime:
             raise ValueError('Can\'t convert "{}" to datetime'.format(value))
