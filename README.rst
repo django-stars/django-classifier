@@ -18,6 +18,8 @@ Also avaialble two demo project:
 * how to build user profile `django-classifier-profile`_
 * shop products with dynamic filters on elasticsearch `django-classifier-shop`_
 
+And `blog post`_ with description how you can use this package.
+
 
 Requirements
 ------------
@@ -40,3 +42,4 @@ Or clone the repository and add to your PYTHONPATH::
 .. _`read the docs`: https://django-classifier.readthedocs.io/en/latest/
 .. _`django-classifier-profile`: https://github.com/django-stars/django-classifier-profile
 .. _`django-classifier-shop`: https://github.com/django-stars/django-classifier-shop
+.. _`blog post`: http://djangostars.com/blog/django-classifier-or-what-have-i-done/?utm_source=github&utm_campaign=django-classifier&utm_medium=post
