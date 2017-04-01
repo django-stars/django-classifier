@@ -17,7 +17,7 @@ Configuration
 Add :py:mod:`classifier` to ``INSTALLED_APPS`` in your ``setting.py`` file::
 
   INSTALLED_APPS = (
-      'djangp.contrib.auth',
+      'django.contrib.auth',
       # ...
       'classifier',
   )
