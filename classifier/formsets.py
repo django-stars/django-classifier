@@ -1,4 +1,5 @@
 import six
+from django import VERSION as DJANGO_VERSION
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms.models import BaseModelFormSet
@@ -57,11 +58,22 @@ class ClassifierFormSet(BaseModelFormSet):
         required_classifiers = ClassifierModel.objects.filter(
             only_one_required=True
         )
-        related_name = (
-            ClassifierLabelModel
-            .get_classifier_related_field()
-            .rel.get_accessor_name()
-        )
+
+        # Django 1.9+
+        # https://docs.djangoproject.com/en/1.9/releases/1.9/#field-rel-changes
+        if DJANGO_VERSION[0] == 1 and DJANGO_VERSION[1] < 9:
+            related_name = (
+                ClassifierLabelModel
+                .get_classifier_related_field()
+                .rel.get_accessor_name()
+            )
+        else:
+            related_name = (
+                ClassifierLabelModel
+                .get_classifier_related_field()
+                .remote_field.get_accessor_name()
+            )
+
         for i, classifier in enumerate(required_classifiers):
             labels = getattr(classifier, related_name)
             if not labels.filter(pk__in=exists_items).exists():

@@ -6,8 +6,12 @@ from classifier.models import ClassifierAbstract, ClassifierLabelAbstract
 
 @python_2_unicode_compatible
 class Contact(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='contacts')
-    kind = models.ForeignKey('ContactClassifierLabel')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='contacts',
+        on_delete=models.CASCADE
+    )
+    kind = models.ForeignKey('ContactClassifierLabel', on_delete=models.CASCADE)
     value = models.CharField(max_length=200)
 
     def __str__(self):
@@ -20,7 +24,11 @@ class ContactClassifier(ClassifierAbstract):
 
 
 class ContactClassifierLabel(ClassifierLabelAbstract):
-    classifier = models.ForeignKey(ContactClassifier, related_name='labels')
+    classifier = models.ForeignKey(
+        ContactClassifier,
+        related_name='labels',
+        on_delete=models.CASCADE
+    )
 
 
 # Property - right structure without related_name in label
@@ -29,7 +37,7 @@ class PropertyClassifier(ClassifierAbstract):
 
 
 class PropertyClassifierLabel(ClassifierLabelAbstract):
-    kind = models.ForeignKey(PropertyClassifier)
+    kind = models.ForeignKey(PropertyClassifier, on_delete=models.CASCADE)
 
 
 # Magic - wrong structure, no ForeignKey from label to classifier
